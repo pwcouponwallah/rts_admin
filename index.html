@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW Real Test Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #FFD700;
+            --accent-color: #0066cc;
+            --light-bg: #f8f9fa;
+            --dark-text: #333;
+            --light-text: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #222);
+            color: var(--light-text);
+            padding: 20px 0;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 40px;
+            margin-right: 15px;
+        }
+        
+        .header-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .header-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #e6c200;
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .stat-card h3 {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .date-range-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input[type="date"],
+        input[type="text"],
+        select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .data-table-container {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .settings-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .settings-form {
+            max-width: 500px;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .login-btn:hover {
+            background-color: #333;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .date-range-selector {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            input[type="date"],
+            input[type="text"],
+            select {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage">
+        <div class="login-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="https://realtest.pw.live/images/pwlogo_realtest.png" alt="PW Logo" style="height: 50px; margin-bottom: 15px;">
+                <h2>Admin Dashboard Login</h2>
+                <p>PW Real Test Analytics Portal</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                
+                <div id="loginError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="dashboardPage" style="display: none;">
+        <header>
+            <div class="container header-content">
+                <div class="logo-container">
+                    <img src="https://realtest.pw.live/images/pwlogo_realtest.png" alt="PW Real Test Logo" class="logo">
+                    <div class="header-text">
+                        <h1>PW Real Test Admin Dashboard</h1>
+                        <p>Coupon Analytics & Management System</p>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Coupons Sent Today</h3>
+                    <div class="value" id="todayCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Coupons Sent Yesterday</h3>
+                    <div class="value" id="yesterdayCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Coupons Last 7 Days</h3>
+                    <div class="value" id="weekCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Coupons Sent</h3>
+                    <div class="value" id="totalCount">0</div>
+                </div>
+            </div>
+            
+            <div class="date-range-selector">
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
+                </div>
+                <button id="filterBtn" class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Filter Data
+                </button>
+                <button id="exportBtn" class="btn btn-primary">
+                    <i class="fas fa-file-export"></i> Export to CSV
+                </button>
+                <button id="refreshBtn" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="couponChart"></canvas>
+            </div>
+            
+            <div class="data-table-container">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-table"></i> Registration Data</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Exam Type</th>
+                            <th>Category</th>
+                            <th>State</th>
+                            <th>PW Batch</th>
+                            <th>Coupon Code</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="settings-card">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-cog"></i> Settings</h3>
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label for="currentCoupon">Current Coupon Code</label>
+                        <input type="text" id="currentCoupon" value="YUGNA00001" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCoupon">New Coupon Code</label>
+                        <input type="text" id="newCoupon" placeholder="Enter new coupon code">
+                    </div>
+                    <button id="updateCouponBtn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Coupon Code
+                    </button>
+                    <button id="initBtn" class="btn btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-database"></i> Initialize Sheets & Test Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin credentials
+        const ADMIN_CREDENTIALS = {
+            username: "PWYugal",
+            password: "Yugal11jan911@"
+        };
+        
+        // DOM elements
+        const loginPage = document.getElementById('loginPage');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const filterBtn = document.getElementById('filterBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const updateCouponBtn = document.getElementById('updateCouponBtn');
+        const initBtn = document.getElementById('initBtn');
+        
+        // Chart variable
+        let couponChart;
+        
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                // Successful login
+                loginPage.style.display = 'none';
+                dashboardPage.style.display = 'block';
+                loadDashboardData();
+            } else {
+                // Failed login
+                loginError.textContent = 'Invalid username or password';
+                loginError.style.display = 'block';
+            }
+        });
+        
+        // Logout button
+        logoutBtn.addEventListener('click', function() {
+            dashboardPage.style.display = 'none';
+            loginPage.style.display = 'block';
+            loginForm.reset();
+            loginError.style.display = 'none';
+            
+            // Destroy chart if it exists
+            if (couponChart) {
+                couponChart.destroy();
+            }
+        });
+        
+        // Filter button
+        filterBtn.addEventListener('click', function() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates');
+                return;
+            }
+            
+            if (new Date(startDate) > new Date(endDate)) {
+                alert('Start date cannot be after end date');
+                return;
+            }
+            
+            filterData(startDate, endDate);
+        });
+        
+        // Export button
+        exportBtn.addEventListener('click', function() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates');
+                return;
+            }
+            
+            exportToCSV(startDate, endDate);
+        });
+        
+        // Refresh button
+        refreshBtn.addEventListener('click', function() {
+            loadDashboardData();
+        });
+        
+        // Update coupon button
+        updateCouponBtn.addEventListener('click', function() {
+            const newCoupon = document.getElementById('newCoupon').value.trim();
+            
+            if (!newCoupon) {
+                alert('Please enter a new coupon code');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to change the coupon code from YUGNA00001 to ${newCoupon}?`)) {
+                updateCouponCode(newCoupon);
+            }
+        });
+        
+        // Initialize sheets button
+        initBtn.addEventListener('click', function() {
+            if (confirm('This will create new sheets and add test data. Are you sure?')) {
+                initializeSheets();
+            }
+        });
+        
+        // Load dashboard data
+        function loadDashboardData() {
+            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=getData', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update stats
+                document.getElementById('todayCount').textContent = data.todayCount;
+                document.getElementById('yesterdayCount').textContent = data.yesterdayCount;
+                document.getElementById('weekCount').textContent = data.weekCount;
+                document.getElementById('totalCount').textContent = data.totalCount;
+                
+                // Update current coupon code
+                document.getElementById('currentCoupon').value = data.currentCoupon;
+                
+                // Populate table
+                const tableBody = document.getElementById('dataTableBody');
+                tableBody.innerHTML = '';
+                
+                data.registrations.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.timestamp}</td>
+                        <td>${row.name}</td>
+                        <td>${row.email}</td>
+                        <td>${row.mobile}</td>
+                        <td>${row.examType}</td>
+                        <td>${row.category}</td>
+                        <td>${row.state}</td>
+                        <td>${row.pwBatch}</td>
+                        <td>${row.couponCode}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                // Create/update chart
+                const ctx = document.getElementById('couponChart').getContext('2d');
+                
+                if (couponChart) {
+                    couponChart.destroy();
+                }
+                
+                couponChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.chartData.labels,
+                        datasets: [{
+                            label: 'Coupons Distributed',
+                            data: data.chartData.values,
+                            backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                            borderColor: 'rgba(255, 215, 0, 1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Coupon Distribution Trend'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading dashboard data:', error);
+                alert('Error loading data. Please try again.');
+            });
+        }
+        
+        // Filter data by date range
+        function filterData(startDate, endDate) {
+            fetch(`YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=filterData&start=${startDate}&end=${endDate}`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('dataTableBody');
+                tableBody.innerHTML = '';
+                
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.timestamp}</td>
+                        <td>${row.name}</td>
+                        <td>${row.email}</td>
+                        <td>${row.mobile}</td>
+                        <td>${row.examType}</td>
+                        <td>${row.category}</td>
+                        <td>${row.state}</td>
+                        <td>${row.pwBatch}</td>
+                        <td>${row.couponCode}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Error filtering data:', error);
+                alert('Error filtering data. Please try again.');
+            });
+        }
+        
+        // Export data to CSV
+        function exportToCSV(startDate, endDate) {
+            fetch(`YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=exportData&start=${startDate}&end=${endDate}`, {
+                method: 'GET'
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `PW_RealTest_Registrations_${startDate}_to_${endDate}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => {
+                console.error('Error exporting data:', error);
+                alert('Error exporting data. Please try again.');
+            });
+        }
+        
+        // Update coupon code
+        function updateCouponCode(newCoupon) {
+            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'updateCoupon',
+                    newCoupon: newCoupon
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Coupon code updated successfully');
+                    document.getElementById('currentCoupon').value = newCoupon;
+                    document.getElementById('newCoupon').value = '';
+                    loadDashboardData();
+                } else {
+                    alert('Error updating coupon code: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating coupon code:', error);
+                alert('Error updating coupon code. Please try again.');
+            });
+        }
+        
+        // Initialize sheets and test data
+        function initializeSheets() {
+            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'initializeSheets'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Sheets initialized successfully with test data');
+                    loadDashboardData();
+                } else {
+                    alert('Error initializing sheets: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error initializing sheets:', error);
+                alert('Error initializing sheets. Please try again.');
+            });
+        }
+        
+        // Set default dates (today and 7 days ago)
+        window.onload = function() {
+            const today = new Date();
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(today.getDate() - 7);
+            
+            document.getElementById('endDate').valueAsDate = today;
+            document.getElementById('startDate').valueAsDate = sevenDaysAgo;
+        };
+    </script>
+</body>
+</html>
