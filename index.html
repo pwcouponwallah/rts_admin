@@ -421,7 +421,7 @@
     <script>
         // Admin credentials
         const ADMIN_CREDENTIALS = {
-            username: "PWYugal",
+            username: "Yugal",
             password: "Yugal11jan911@"
         };
         
@@ -531,7 +531,7 @@
         
         // Load dashboard data
         function loadDashboardData() {
-            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=getData', {
+            fetch('https://script.google.com/macros/s/AKfycbyrRgCNlI6XXJllul_wHKd7tprdLSyb3EauNpJoI3R-9wEE1I12GoDZnEeGWJroXI8-/exec?action=getData', {
                 method: 'GET'
             })
             .then(response => response.json())
@@ -613,7 +613,7 @@
         
         // Filter data by date range
         function filterData(startDate, endDate) {
-            fetch(`YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=filterData&start=${startDate}&end=${endDate}`, {
+            fetch(`https://script.google.com/macros/s/AKfycbyrRgCNlI6XXJllul_wHKd7tprdLSyb3EauNpJoI3R-9wEE1I12GoDZnEeGWJroXI8-/exec?action=filterData&start=${startDate}&end=${endDate}`, {
                 method: 'GET'
             })
             .then(response => response.json())
@@ -645,7 +645,7 @@
         
         // Export data to CSV
         function exportToCSV(startDate, endDate) {
-            fetch(`YOUR_APPS_SCRIPT_DEPLOYMENT_URL?action=exportData&start=${startDate}&end=${endDate}`, {
+            fetch(`https://script.google.com/macros/s/AKfycbyrRgCNlI6XXJllul_wHKd7tprdLSyb3EauNpJoI3R-9wEE1I12GoDZnEeGWJroXI8-/exec?action=exportData&start=${startDate}&end=${endDate}`, {
                 method: 'GET'
             })
             .then(response => response.blob())
@@ -667,7 +667,7 @@
         
         // Update coupon code
         function updateCouponCode(newCoupon) {
-            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL', {
+            fetch('https://script.google.com/macros/s/AKfycbyrRgCNlI6XXJllul_wHKd7tprdLSyb3EauNpJoI3R-9wEE1I12GoDZnEeGWJroXI8-/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -696,7 +696,7 @@
         
         // Initialize sheets and test data
         function initializeSheets() {
-            fetch('YOUR_APPS_SCRIPT_DEPLOYMENT_URL', {
+            fetch('https://script.google.com/macros/s/AKfycbyrRgCNlI6XXJllul_wHKd7tprdLSyb3EauNpJoI3R-9wEE1I12GoDZnEeGWJroXI8-/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
